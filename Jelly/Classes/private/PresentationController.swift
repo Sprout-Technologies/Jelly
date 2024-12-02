@@ -11,12 +11,12 @@ protocol PresentationControllerProtocol {
 /// We  use this controller to setup dimmingView, blurView, positioning and resize the the presented ViewController etc.
 final class PresentationController: UIPresentationController, PresentationControllerProtocol {
     private var presentation: Presentation
-    private let sizeCalulator: ViewControllerSizeCalculator = ViewControllerSizeCalculator()
+    private let sizeCalulator: ViewControllerSizeCalculator = .init()
 
     // Blur and Dimming View needs to be accessible because the Interactor attaches Gesture-Recognizer to them when
     // using an edge pan gesture. This must be done, because it wont work other wise with non full screen viewController transitions
-    private(set) var dimmingView: UIView = UIView()
-    private(set) var blurView: UIVisualEffectView = UIVisualEffectView()
+    private(set) var dimmingView: UIView = .init()
+    private(set) var blurView: UIVisualEffectView = .init()
 
     init(presentedViewController: UIViewController, presentingViewController: UIViewController?, presentation: Presentation) {
         self.presentation = presentation
@@ -41,8 +41,8 @@ final class PresentationController: UIPresentationController, PresentationContro
         case let .blurred(effectStyle):
             setupBlurView()
             animateBlurView(effectStyle: effectStyle)
-        case let .dimmed(alpha):
-            setupDimmingView(withAlpha: alpha)
+        case let .dimmed(alpha, color):
+            setupDimmingView(withAlpha: alpha, color: color)
             animateDimmingView(alpha: alpha)
         }
     }
@@ -65,7 +65,8 @@ final class PresentationController: UIPresentationController, PresentationContro
     }
 
     override func size(forChildContentContainer container: UIContentContainer,
-                       withParentContainerSize parentSize: CGSize) -> CGSize {
+                       withParentContainerSize parentSize: CGSize) -> CGSize
+    {
         return sizeCalulator.size(forChildContentContainer: container,
                                   withParentContainerSize: parentSize,
                                   presentation: presentation)
@@ -111,7 +112,7 @@ extension PresentationController {
         switch backgroundStyle {
         case let .blurred(style):
             blurView.effect = UIBlurEffect(style: style)
-        case let .dimmed(alpha):
+        case let .dimmed(alpha, color):
             dimmingView.alpha = alpha
         }
     }
@@ -135,14 +136,14 @@ extension PresentationController {
         blurView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
 
-    private func setupDimmingView(withAlpha alpha: CGFloat = 0.5) {
+    private func setupDimmingView(withAlpha alpha: CGFloat = 0.5, color: UIColor = .black) {
         guard let containerView = containerView else {
             return
         }
 
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.alpha = 0.0
-        dimmingView.backgroundColor = UIColor(white: 0.0, alpha: alpha)
+        dimmingView.backgroundColor = color
 
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
         dimmingView.addGestureRecognizer(recognizer)

@@ -1,5 +1,5 @@
-import UIKit
 import Jelly
+import UIKit
 
 class MainViewController: UIViewController {
     var animator: Animator?
@@ -30,10 +30,10 @@ class MainViewController: UIViewController {
                 switch nonInteractiveType {
                     case .coverFromBottom:
                         showButtonLogic = {
-                            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
                             let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe")
                             let marginGuards = UIEdgeInsets(top: 0, left: 16, bottom: 32, right: 16)
-                            let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5), isTapBackgroundToDismissEnabled: true, corners: [.layerMaxXMaxYCorner,.layerMaxXMinYCorner,.layerMinXMaxYCorner,.layerMinXMinYCorner])
+                            let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5), isTapBackgroundToDismissEnabled: true, corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner])
                             let size = PresentationSize(width: .fullscreen, height: .halfscreen)
                             let alignment = PresentationAlignment(vertical: .bottom, horizontal: .center)
                             let presentation = CoverPresentation(directionShow: .bottom, directionDismiss: .bottom, uiConfiguration: uiConfiguration, size: size, alignment: alignment, marginGuards: marginGuards)
@@ -44,7 +44,7 @@ class MainViewController: UIViewController {
                         }
                     case .slideFromRight:
                         showButtonLogic = {
-                            let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
                             let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe")
                             let presentation = SlidePresentation(direction: .bottom, size: .halfscreen, parallax: 0.5)
                             let animator = Animator(presentation: presentation)
@@ -55,8 +55,8 @@ class MainViewController: UIViewController {
                 }
             case .interactive(let interactiveType):
                 switch interactiveType {
-                    case .coverMenuFromRightCanvas:()
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                    case .coverMenuFromRightCanvas: ()
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe")
                         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .canvas)
                         let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .blurred(effectStyle: .light))
@@ -71,7 +71,7 @@ class MainViewController: UIViewController {
                             self.present(viewControllerToPresent, animated: true, completion: nil)
                         }
                     case .slideMenuFromRightEdge:
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe")
                         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .edge)
                         let uiConfiguration = PresentationUIConfiguration(backgroundStyle: .dimmed(alpha: 0.5))
@@ -84,7 +84,7 @@ class MainViewController: UIViewController {
                             self.present(viewControllerToPresent, animated: true, completion: nil)
                         }
                     case .multipleDirectionsCoverCanvas:
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe")
                         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .canvas)
                         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .blurred(effectStyle: .light))
@@ -100,7 +100,7 @@ class MainViewController: UIViewController {
                             self.present(viewControllerToPresent, animated: true, completion: nil)
                         }
                     case .notificationFromTopCanvas:
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe")
                         let interactionConfiguration = InteractionConfiguration(presentingViewController: self, completionThreshold: 0.5, dragMode: .canvas)
                         let uiConfiguration = PresentationUIConfiguration(cornerRadius: 10, backgroundStyle: .dimmed(alpha: 0.5))
@@ -114,13 +114,12 @@ class MainViewController: UIViewController {
                         
                         showButtonLogic = {
                             self.present(viewControllerToPresent, animated: true, completion: nil)
-                    }
-                    
+                        }
                 }
             case .liveUpdate(let liveUpdateType):
                 switch liveUpdateType {
-                    case .updateAlignment:()
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                    case .updateAlignment: ()
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe") as! DismissMeController
                         let alignment = PresentationAlignment(vertical: .top, horizontal: .center)
                         let uiConfig = PresentationUIConfiguration(cornerRadius: 10)
@@ -137,8 +136,8 @@ class MainViewController: UIViewController {
                         viewControllerToPresent.interactionAction = { [weak self] in
                             try! self?.animator?.updateVerticalAlignment(alignment: .bottom, duration: .medium)
                         }
-                    case .updateSize:()
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                    case .updateSize: ()
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe") as! DismissMeController
                         let alignment = PresentationAlignment(vertical: .top, horizontal: .center)
                         let uiConfig = PresentationUIConfiguration(cornerRadius: 10)
@@ -156,8 +155,8 @@ class MainViewController: UIViewController {
                             let newSize = PresentationSize(width: .fullscreen, height: .fullscreen)
                             try! self?.animator?.updateSize(presentationSize: newSize, duration: .medium)
                         }
-                    case .updateCornerRadius:()
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                    case .updateCornerRadius: ()
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe") as! DismissMeController
                         let alignment = PresentationAlignment(vertical: .top, horizontal: .center)
                         let uiConfig = PresentationUIConfiguration(cornerRadius: 10)
@@ -175,7 +174,7 @@ class MainViewController: UIViewController {
                             self?.animator?.updateCorners(radius: 30, corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], duration: .medium)
                         }
                     case .updateMarginGuards:
-                        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let viewControllerToPresent = storyboard.instantiateViewController(withIdentifier: "PresentMe") as! DismissMeController
                         let alignment = PresentationAlignment(vertical: .top, horizontal: .center)
                         let uiConfig = PresentationUIConfiguration(cornerRadius: 10)
